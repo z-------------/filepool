@@ -1,0 +1,15 @@
+{
+  "name": "filepool",
+  "version": "0.0.1",
+  "description": "Share files, quick and easy",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Zack Guard",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.9.5",
+    "socket.io": "^1.1.0"
+  }
+}
