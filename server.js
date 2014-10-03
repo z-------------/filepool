@@ -5,6 +5,7 @@ var server = http.Server(app);
 var io = require("socket.io")(server);
 var fs = require("fs");
 
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 var router = express.Router();
@@ -123,4 +124,6 @@ setInterval(function(){
     }
 }, 1000);
 
-server.listen(port);
+server.listen(port, ipaddress, function() {
+    console.log("filepool running");
+});
