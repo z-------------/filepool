@@ -1,6 +1,6 @@
 # filepool
 
-### Quick and easy self-destructing file sharing
+| Quick and easy self-destructing file sharing
 
 ## Setup
 
