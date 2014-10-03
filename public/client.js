@@ -26,6 +26,16 @@ function handleFileDragover(e) {
     e.dataTransfer.dropEffect = "copy";
 }
 
+function toggleDragPrompt() {
+    var poolItems = poolElem.children;
+    
+    if (poolItems.length > 0) {
+        poolElem.classList.add("noprompt");
+    } else {
+        poolElem.classList.remove("noprompt");
+    }
+}
+
 socket.on("file", function(data){
     var url = "http://" + location.host + "/file?id=" + data.id;
     
@@ -50,11 +60,15 @@ socket.on("file", function(data){
     poolElem.appendChild(fileElem);
     
     fileElem.querySelector(".progress").width = fileElem.offsetWidth;
+    
+    toggleDragPrompt();
 });
 
 socket.on("file expired", function(id){
     var expiredElem = document.querySelector(".file[data-id='" + id + "']");
     expiredElem.parentElement.removeChild(expiredElem);
+    
+    toggleDragPrompt();
 });
 
 document.body.addEventListener("dragover", handleFileDragover, false);

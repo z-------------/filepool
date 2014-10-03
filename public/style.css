@@ -63,6 +63,15 @@ h1 {
     padding-top: 108px;
     
     overflow-y: auto;
+    
+    background-image: url(img/ui/add_files_prompt.svg);
+    background-size: 400px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#pool.noprompt {
+    background: none;
 }
 
 .file {
