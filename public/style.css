@@ -87,6 +87,10 @@ h1 {
     overflow: hidden;
 }
 
+.file.loading {
+    opacity: .5;
+}
+
 .file .info {
     width: calc(100% - 50px);
     padding: 20px;
@@ -95,6 +99,10 @@ h1 {
     background-repeat: no-repeat;
     background-size: 45px;
     background-position: 12px center;
+}
+
+.file.loading .info {
+    background-image: url(img/ui/loading.svg);
 }
 
 .file .dl {

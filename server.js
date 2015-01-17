@@ -85,6 +85,7 @@ io.on("connection", function(socket){
         var file = data.file;
         var name = data.name;
         var type = data.type;
+        var id = data.id;
         
         if (!type) {
             type = "text/plain";
@@ -92,8 +93,6 @@ io.on("connection", function(socket){
         
         var now = new Date();
         var expiry = now.getTime() + 600000; // 10 minutes from now
-        
-        var id = now.getTime().toString() + Math.round(Math.random()*1000000).toString();
         
         files.push({
             file: file,
