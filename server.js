@@ -46,8 +46,10 @@ router.get("/img/files/*", function(req, res){
     });
 });
 
-router.get("/file", function(req, res){
-    var id = req.query.id;
+router.get("/file/*", function(req, res){
+    var path = req.originalUrl.substring(1).split("/");
+    
+    var id = path[1];
     var dl = req.query.dl;
     
     var data = elemByValue(files, "id", id);

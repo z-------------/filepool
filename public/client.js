@@ -57,16 +57,17 @@ socket.on("file", function(data){
     var type = data.type;
     var expiry = data.expiry;
     
-    var url = "file?id=" + id;
+    var url = "file/" + id + "/" + encodeURIComponent(name);
     
     var fileElem = document.createElement("div");
     fileElem.innerHTML = "<a target='_blank'><div class='info'><h3>" + name + "</h3><h4>" + type + "</h4></div></a><a><div class='dl'></div></a><canvas class='progress'></canvas>";
     
     fileElem.dataset.id = id;
     fileElem.dataset.expiry = expiry;
+    fileElem.setAttribute("title", name);
     
     fileElem.querySelectorAll("a")[0].href = url;
-    fileElem.querySelectorAll("a")[1].href = url + "&dl=1";
+    fileElem.querySelectorAll("a")[1].href = url + "?dl=1";
     
     var ext = "";
     if (data.name.indexOf(".") !== -1) {
