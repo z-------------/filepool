@@ -22,6 +22,8 @@ function uploadFiles(files) {
         fileElem.dataset.id = id;
         fileElem.classList.add("file", "loading");
         poolElem.appendChild(fileElem);
+        
+        toggleDragPrompt();
     });
 }
 
