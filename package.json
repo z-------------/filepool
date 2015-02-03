@@ -1,7 +1,7 @@
 {
   "name": "filepool",
-  "version": "0.0.1",
-  "description": "Share files, quick and easy",
+  "version": "1.0.0",
+  "description": "Self-desturcting file sharing",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
