@@ -92,32 +92,34 @@ io.on("connection", function(socket){
     }
     
     socket.on("file upload", function(data){
-        var file = data.file;
-        var name = data.name;
-        var type = data.type;
-        var id = data.id;
-        
-        if (!type) {
-            type = "text/plain";
+        if (data.file.length < 100000000) { // 100 mb
+            var file = data.file;
+            var name = data.name;
+            var type = data.type;
+            var id = data.id;
+
+            if (!type) {
+                type = "text/plain";
+            }
+
+            var now = new Date();
+            var expiry = now.getTime() + 600000; // 10 minutes from now
+
+            files.push({
+                file: file,
+                name: name,
+                type: type,
+                id: id,
+                expiry: expiry
+            });
+
+            io.emit("file", {
+                id: id,
+                name: name,
+                type: type,
+                expiry: expiry
+            });
         }
-        
-        var now = new Date();
-        var expiry = now.getTime() + 600000; // 10 minutes from now
-        
-        files.push({
-            file: file,
-            name: name,
-            type: type,
-            id: id,
-            expiry: expiry
-        });
-        
-        io.emit("file", {
-            id: id,
-            name: name,
-            type: type,
-            expiry: expiry
-        });
     });
 });
 

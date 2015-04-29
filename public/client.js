@@ -4,26 +4,30 @@ var poolElem = document.getElementById("pool");
 
 function uploadFiles(files) {
     [].slice.call(files).forEach(function(file){
-        var now = new Date();
-        
-        var name = file.name;
-        var type = file.type;
-        var id = now.getTime().toString() + Math.round(Math.random()*1000000).toString();
-        
-        socket.emit("file upload", {
-            file: file,
-            name: name,
-            type: type,
-            id: id
-        });
-        
-        var fileElem = document.createElement("div");
-        fileElem.innerHTML = "<div class='info'><h3>" + name + "</h3><h4>" + type + "</h4></div>";
-        fileElem.dataset.id = id;
-        fileElem.classList.add("file", "loading");
-        poolElem.appendChild(fileElem);
-        
-        toggleDragPrompt();
+        if (file.size < 100000000) { // 100 mb
+            var now = new Date();
+
+            var name = file.name;
+            var type = file.type;
+            var id = now.getTime().toString() + Math.round(Math.random()*1000000).toString();
+
+            socket.emit("file upload", {
+                file: file,
+                name: name,
+                type: type,
+                id: id
+            });
+
+            var fileElem = document.createElement("div");
+            fileElem.innerHTML = "<div class='info'><h3>" + name + "</h3><h4>" + type + "</h4></div>";
+            fileElem.dataset.id = id;
+            fileElem.classList.add("file", "loading");
+            poolElem.appendChild(fileElem);
+
+            toggleDragPrompt();
+        } else {
+            alert("Your file '" + file.name + "' is too big (" + file.size + " bytes). Uploaded files cannot be bigger than 100 MB.");
+        }
     });
 }
 
