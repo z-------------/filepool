@@ -25,6 +25,10 @@ function elemByValue(array, key, value) {
     return result;
 }
 
+function send404(res) {
+    res.status(404).send("<h1>filepool</h1><h2>404: not found</h2><p>The file you're looking for couldn't be found. It might have expired or have never existed at all.</p><p><a href='/'>Back to filepool</a></p>");
+}
+
 router.use(function(req, res, next) {
     var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 	console.log(ip, req.method, req.url);
@@ -46,10 +50,8 @@ router.get("/img/files/*", function(req, res){
     });
 });
 
-router.get("/file/*", function(req, res){
-    var path = req.originalUrl.substring(1).split("/");
-    
-    var id = path[1];
+router.get("/file/:id/*", function(req, res){
+    var id = req.params.id;
     var dl = req.query.dl;
     
     var data = elemByValue(files, "id", id);
@@ -63,12 +65,18 @@ router.get("/file/*", function(req, res){
 
         res.send(data.file);
     } else {
-        res.status(404).send("404");
+        send404(res);
     }
 });
 
 router.get("*", function(req, res){
-    res.sendFile(__dirname + "/public" + req.params[0]); 
+    fs.exists(__dirname + "/public" + req.params[0], function(exists){
+        if (exists) {
+            res.sendFile(__dirname + "/public" + req.params[0]);
+        } else {
+            send404(res);
+        }
+    });
 });
 
 app.use("/", router);
