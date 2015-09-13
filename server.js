@@ -14,14 +14,14 @@ var files = [];
 
 function elemByValue(array, key, value) {
     var result;
-    
+
     for (var i = 0; i < array.length; i++) {
         if (array[i][key] === value) {
             result = array[i];
             break;
         }
     }
-    
+
     return result;
 }
 
@@ -32,8 +32,8 @@ function send404(res) {
 router.use(function(req, res, next) {
     var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 	console.log(ip, req.method, req.url);
-    
-	next();	
+
+	next();
 });
 
 router.get("/", function(req, res){
@@ -53,12 +53,12 @@ router.get("/img/files/*", function(req, res){
 router.get("/file/:id/*", function(req, res){
     var id = req.params.id;
     var dl = req.query.dl;
-    
+
     var data = elemByValue(files, "id", id);
-    
+
     if (data) {
         res.set("Content-Type", data.type);
-    
+
         if (dl === "1") {
             res.set("Content-Disposition", "attachment; filename=\"" + data.name + "\"");
         }
@@ -90,7 +90,7 @@ io.on("connection", function(socket){
             expiry: files[i].expiry
         });
     }
-    
+
     socket.on("file upload", function(data){
         if (data.file.length < 100000000) { // 100 mb
             var file = data.file;
@@ -125,11 +125,11 @@ io.on("connection", function(socket){
 
 setInterval(function(){
     var now = new Date();
-    
+
     for (var i = 0; i < files.length; i++) {
         if (now.getTime() >= files[i].expiry) {
             io.emit("file expired", files[i].id);
-            
+
             files.splice(i, 1);
         }
     }
